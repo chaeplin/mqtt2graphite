@@ -84,7 +84,8 @@ def on_message(mosq, userdata, msg):
                 '''Number: obtain a float from the payload'''
                 try:
                     number = float(msg.payload)
-                    lines.append("%s %f %d" % (carbonkey, number, now))
+                    #lines.append("%s %f %d" % (carbonkey, number, now))
+                    lines.append("%s %f" % (carbonkey, number))
                 except ValueError:
                     logging.info("Topic %s contains non-numeric payload [%s]" % 
                             (msg.topic, msg.payload))
@@ -97,7 +98,9 @@ def on_message(mosq, userdata, msg):
                     st = json.loads(msg.payload)
                     for k in st:
                         if is_number(st[k]):
-                            lines.append("%s.%s %f %d" % (carbonkey, k, float(st[k]), now))
+                            #lines.append("%s.%s %f %d" % (carbonkey, k, float(st[k]), now))
+                            lines.append("%s.%s %f" % (carbonkey, k, float(st[k])))
+
                 except:
                     logging.info("Topic %s contains non-JSON payload [%s]" %
                             (msg.topic, msg.payload))
